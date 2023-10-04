@@ -1,2 +1,2 @@
-export * from './database'
-export * from './envs'
+export * from './database.config'
+export * from './envs.config'
