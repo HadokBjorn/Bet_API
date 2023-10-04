@@ -11,10 +11,19 @@
     "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
     "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
     "dev:seed": "npm run dev:load-envs prisma db seed",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "lint": "eslint ./",
+    "lint:fix": "eslint --fix ./",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "lint-staged":{
+    "*.ts":[
+      "npm run lint:fix"
+    ]
   },
   "keywords": [],
   "author": "Esaú Bandeira",
@@ -31,6 +40,8 @@
     "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "3.0.3",
     "prisma": "^5.3.1",
     "tsup": "^7.2.0",
