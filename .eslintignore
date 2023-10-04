@@ -12,3 +12,4 @@ prisma/**/*
 docker-compose*
 Dockerfile*
 nginx.conf
+jest.*
