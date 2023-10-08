@@ -28,7 +28,7 @@ describe('Participant Service test suit', () => {
     expect(participant).toEqual(response)
   })
 
-  it('should return a ConflictError when name already register', async () => {
+  it('should return a ConflictError when name already exist', async () => {
     const participantMock = {
       name: 'Jhon',
       balance: 2000,
