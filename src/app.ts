@@ -2,7 +2,7 @@ import express, { type Express } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import { connectDb, disconnectDB, loadEnv } from './config'
-import { ParticipantRouter } from './routes'
+import { GameRouter, ParticipantRouter } from './routes'
 import errorHandler from './middlewares/error-handle.middleware'
 
 const app = express()
@@ -12,6 +12,7 @@ app
   .use(express.json())
   .get('/health', (_req, res) => res.send('OK!'))
   .use('/participants', ParticipantRouter)
+  .use('/games', GameRouter)
   .use(errorHandler)
 
 export async function init(): Promise<Express> {
