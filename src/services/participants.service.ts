@@ -17,6 +17,11 @@ async function create(participant: ParticipantDTO) {
   return await ParticipantsRepository.create(newParticipant)
 }
 
+async function findAll() {
+  return await ParticipantsRepository.findAll()
+}
+
 export const ParticipantsService = {
   create,
+  findAll,
 }

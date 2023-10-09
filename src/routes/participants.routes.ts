@@ -9,4 +9,4 @@ ParticipantRouter.post(
   '/',
   validateSchema(ParticipantSchema),
   ParticipantsController.create,
-)
+).get('/', ParticipantsController.findAll)
