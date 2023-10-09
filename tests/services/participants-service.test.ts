@@ -51,4 +51,33 @@ describe('Participant Service test suit', () => {
       })
     })
   })
+
+  it('should return a array with participants', async () => {
+    const participant = {
+      id: 1,
+      name: 'Jhon',
+      balance: 2000,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    jest
+      .spyOn(ParticipantsRepository, 'findAll')
+      .mockImplementationOnce(async () => {
+        return [{ ...participant }]
+      })
+
+    const response = await ParticipantsService.findAll()
+    expect(response).toEqual([{ ...participant }])
+  })
+
+  it('should return a empty array when not exist participants yet', async () => {
+    jest
+      .spyOn(ParticipantsRepository, 'findAll')
+      .mockImplementationOnce(async () => {
+        return []
+      })
+
+    const response = await ParticipantsService.findAll()
+    expect(response).toEqual([])
+  })
 })
