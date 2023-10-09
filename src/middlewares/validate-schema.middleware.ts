@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type Schema } from 'joi'
-import { UnprocessableEntityError } from 'src/errors'
+import { UnprocessableEntityError } from '../errors'
 
 export function validateSchema(schema: Schema) {
   return (req: Request, res: Response, next: NextFunction) => {
