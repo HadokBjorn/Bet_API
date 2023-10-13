@@ -4,6 +4,7 @@ import { cleanDB } from '../helpers'
 import { beforeAll, beforeEach, describe, it } from '@jest/globals'
 import httpStatus from 'http-status'
 import { prisma } from '../../src/config'
+import { GamesFactory } from '../factories'
 
 beforeAll(async () => {
   await init()
@@ -98,5 +99,32 @@ describe('GET => /games', () => {
     expect(response.status).toBe(httpStatus.OK)
     expect(response.body).toHaveLength(2)
     expect(games).toHaveLength(2)
+  })
+})
+
+describe('GET => /games/:id', () => {
+  it('should return 422 when id is a string', async () => {
+    const { status } = await server.get('/games/test')
+    expect(status).toBe(httpStatus.UNPROCESSABLE_ENTITY)
+  })
+
+  it('should return 404 when id not exist', async () => {
+    // the number in url is static but the database is cleaned before each test
+    const { status } = await server.get('/games/1')
+    expect(status).toBe(httpStatus.NOT_FOUND)
+  })
+  it('should return 200 and a game when id exist', async () => {
+    const game = await new GamesFactory()
+      .setHomeTeamName('Flamengo')
+      .setAwayTeamName('Fluminense')
+      .createGame()
+    const { status, body } = await server.get(`/games/${game.id}`)
+    expect(status).toBe(httpStatus.OK)
+    // FIXME: When bet crud is implemented, add a attribute bet:[]
+    expect(body).toEqual({
+      ...game,
+      createdAt: game.createdAt.toISOString(),
+      updatedAt: game.updatedAt.toISOString(),
+    })
   })
 })
