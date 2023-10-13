@@ -1,11 +1,15 @@
 import app, { init } from '../../src/app'
 import supertest from 'supertest'
 import { cleanDB } from '../helpers'
-import { describe, it } from '@jest/globals'
+import { beforeEach, describe, it } from '@jest/globals'
 import httpStatus from 'http-status'
+import { prisma } from '../../src/config'
 
 beforeAll(async () => {
   await init()
+})
+
+beforeEach(async () => {
   await cleanDB()
 })
 const server = supertest(app)
@@ -34,5 +38,26 @@ describe('POST => /participants', () => {
     expect(response.body[0]).toBe(
       '"name" length must be at least 3 characters long',
     )
+  })
+
+  it('should respond with status 201 and create a participant', async () => {
+    const participant = { name: 'Jhon Doe', balance: 2000 }
+    const response = await server.post('/participants').send(participant)
+    const isCreated = await prisma.participant.findMany()
+
+    expect(response.status).toBe(httpStatus.CREATED)
+    expect(isCreated).toHaveLength(1)
+  })
+
+  it('should respond with status 409 and not create a participant', async () => {
+    const participant = { name: 'Jhon Doe', balance: 2000 }
+    await prisma.participant.create({
+      data: participant,
+    })
+    const response = await server.post('/participants').send(participant)
+    const isCreated = await prisma.participant.findMany()
+
+    expect(response.status).toBe(httpStatus.CONFLICT)
+    expect(isCreated).toHaveLength(1)
   })
 })
