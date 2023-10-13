@@ -5,8 +5,8 @@ import { connectDb, disconnectDB, loadEnv } from './config'
 import { GameRouter, ParticipantRouter } from './routes'
 import errorHandler from './middlewares/error-handle.middleware'
 
-const app = express()
 loadEnv()
+const app = express()
 app
   .use(cors())
   .use(express.json())
