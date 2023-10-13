@@ -60,3 +60,43 @@ describe('POST => /games', () => {
     expect(isCreated).toHaveLength(1)
   })
 })
+
+describe('GET => /games', () => {
+  it('Should return a empty array', async () => {
+    const response = await server.get('/games')
+    const games = await prisma.game.findMany()
+    expect(response.status).toBe(httpStatus.OK)
+    expect(response.body).toHaveLength(0)
+    expect(games).toHaveLength(0)
+  })
+
+  it('Should return a array with all games', async () => {
+    await prisma.game.createMany({
+      data: [
+        {
+          awayTeamName: 'Flamengo',
+          awayTeamScore: 2,
+          homeTeamName: 'Fluminense',
+          homeTeamScore: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isFinished: true,
+        },
+        {
+          awayTeamName: 'São Paulo',
+          awayTeamScore: 0,
+          homeTeamName: 'Fluminense',
+          homeTeamScore: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isFinished: false,
+        },
+      ],
+    })
+    const response = await server.get('/games')
+    const games = await prisma.game.findMany()
+    expect(response.status).toBe(httpStatus.OK)
+    expect(response.body).toHaveLength(2)
+    expect(games).toHaveLength(2)
+  })
+})
