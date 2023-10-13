@@ -34,7 +34,14 @@
       "npm run lint:fix"
     ]
   },
-  "keywords": [],
+  "keywords": [
+    "back-end",
+    "typescript",
+    "driven",
+    "postgres",
+    "express",
+    "nodejs"
+  ],
   "author": "Esaú Bandeira",
   "license": "MIT",
   "devDependencies": {

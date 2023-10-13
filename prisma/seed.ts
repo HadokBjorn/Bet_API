@@ -1,7 +1,8 @@
-import {prisma} from '../src/config'
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient()
 async function main() {
     console.log("Starting...");
-    const participants = await prisma.participant.findMany();
+    const participants = await prisma.participant.findMany({})
     if (participants.length === 0){
         await prisma.participant.create({
             data:{
