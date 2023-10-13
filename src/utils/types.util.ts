@@ -11,3 +11,8 @@ export interface GameDTO {
   homeTeamName: string
   awayTeamName: string
 }
+
+export interface GameUpdateDTO {
+  homeTeamScore: number
+  awayTeamScore: number
+}
