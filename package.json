@@ -6,7 +6,8 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsup src",
-    "start": "node dist/server.js",
+    "prisma:seed": "prisma db seed",
+    "start": "npm run migration:run && npm run prisma:seed && node dist/server.js",
     "migration:run": "prisma migrate deploy",
     "migration:generate": "prisma migrate dev",
     "test:load-envs": "dotenv -e .env.test",
