@@ -61,3 +61,35 @@ describe('POST => /participants', () => {
     expect(isCreated).toHaveLength(1)
   })
 })
+
+describe('GET => /participants', () => {
+  it('Should return a empty array', async () => {
+    const response = await server.get('/participants')
+    const participant = await prisma.participant.findMany()
+    expect(response.status).toBe(httpStatus.OK)
+    expect(response.body).toHaveLength(0)
+    expect(participant).toHaveLength(0)
+  })
+
+  it('Should return a array with all participants', async () => {
+    await prisma.participant.createMany({
+      data: [
+        {
+          name: 'Joe Doe',
+          balance: 3000,
+          createdAt: new Date(),
+        },
+        {
+          name: 'Mike Hills',
+          balance: 5000,
+          createdAt: new Date(),
+        },
+      ],
+    })
+    const response = await server.get('/participants')
+    const participant = await prisma.participant.findMany()
+    expect(response.status).toBe(httpStatus.OK)
+    expect(response.body).toHaveLength(2)
+    expect(participant).toHaveLength(2)
+  })
+})

@@ -79,3 +79,5 @@ describe('Games Schema Test Suits', () => {
     expect(validate.error).toBeDefined()
   })
 })
+
+// TODO: To implement game update schema tests
